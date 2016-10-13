@@ -1,0 +1,6 @@
+name: SurvivalGames
+version: 1.0.0
+api: [2.0.0]
+main: SurvivalGames\SurvivalGames
+authors: [ImagicalGamer, remotevase, Taki21]
+load: POSTWORLD
