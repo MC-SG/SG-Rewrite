@@ -11,27 +11,22 @@ use pocketmine\utils\TextFormat;
 
 use SurvivalGames\SurvivalGames;
 
-class ArenaManager{
+class ArenaManager extends PluginBase{
 
-	protected $plugin;
-
-	public function __construct(SurvivalGames $plugin){
-		$this->plugin = $plugin;
-	}
-
-	static function save(Arena $arena){
+	public static function save(Arena $arena){
+		$arena->plugin->getLogger()->info(TextFormat::YELLOW . "Saving arena " . $arena->getName() . "...");
 		$data = ["name" => $arena->getName(), "starttime" => 30, "gametime" => 780];
-		$cfg = new Config($this->plugin->getDataFolder() . "/arenas.json", Config::JSON, ["Arenas" => []]);
-		$cfg->set($data["name"], $data);
+		$cfg = new Config($arena->plugin->getDataFolder() . "/arenas.json", Config::JSON, ["Arenas" => []]);
+		$cfg->setNested("Arenas." . $data["name"], $data);
 		$cfg->save();
-		$this->unload($arena);
+		ArenaManager::unload($arena);
 	}
 
-	static function unload(Arena $arena){
-		$this->plugin->getLogger()->info(TextFormat::YELLOW . "Unloading Arena " . $arena->getName() . "...");
-		foreach($arena->getPlayers() as $p){
-			$p->sendMessage($this->plugin->prefix . "Forced Arena Unload!");
-			$p->teleport($this->plugin->getDefaultLevel()->getSafeSpawn());
+	public static function unload(Arena $arena){
+		$arena->plugin->getLogger()->info(TextFormat::YELLOW . "Unloading arena " . $arena->getName() . "...");
+		foreach($arena->getLevel()->getPlayers() as $p){
+			$p->sendMessage($arena->plugin->prefix . "Forced Arena Unload!");
+			$p->teleport($arena->plugin->getDefaultLevel()->getSafeSpawn());
 		}
 	}
 }

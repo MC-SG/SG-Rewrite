@@ -1,15 +1,13 @@
 <?php
 namespace SurvivalGames\ArenaManager;
 
-use pocketmine\event\Listener;
-use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
 use SurvivalGames\SurvivalGames;
 
 class Arena{
 
-	public $plugin, $data, $name;
+	public $plugin, $data;
 
 	public function __construct(SurvivalGames $plugin, Array $data)
 	{
@@ -50,6 +48,6 @@ class Arena{
 
 	public function save()
 	{
-		$this->plugin->getArenaManager()->save($this);
+		ArenaManager::save($this);
 	}
 }

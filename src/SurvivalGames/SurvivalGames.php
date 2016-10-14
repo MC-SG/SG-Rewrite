@@ -34,6 +34,7 @@ class SurvivalGames extends PluginBase implements Listener{
 			$arena2 = new Arena($this, $arena);
 			array_push(static::$arenas, $arena2);
 			$this->arenacount++;
+			$this->getServer()->loadLevel($arena2->getName());
 		}
 		$this->getLogger()->info(TextFormat::AQUA . "Successfully loaded " . $this->arenacount . " arenas!");
 		$this->prefix = $this->getConfig()->get("Prefix") . " ";
